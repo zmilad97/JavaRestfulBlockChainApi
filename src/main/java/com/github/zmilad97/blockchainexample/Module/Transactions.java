@@ -1,17 +1,33 @@
 package com.github.zmilad97.blockchainexample.Module;
 
+import com.github.zmilad97.blockchainexample.Service.UserService;
+import com.github.zmilad97.blockchainexample.Wallet.WalletCore;
+
 public class Transactions {
+
+    private String transactionId;
     private String source;
     private String destination;
-    private int amount;
+    private double amount;
 
+    public Transactions(Transactions transactions) {
+        this.transactionId = transactions.transactionId;
+        this.source = transactions.source;
+        this.destination = transactions.destination;
+        this.amount = transactions.amount;
 
-    public Transactions(String source, String destination, int amount) {
-        this.source = source;
-        this.destination = destination;
-        this.amount = amount;
     }
 
+    public Transactions() {
+    }
+
+    public String getTransactionId() {
+        return transactionId;
+    }
+
+    public void setTransactionId(String trxid) {
+        this.transactionId = trxid;
+    }
 
     public String getSource() {
         return source;
@@ -29,11 +45,13 @@ public class Transactions {
         this.destination = destination;
     }
 
-    public int getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
+
+
 }

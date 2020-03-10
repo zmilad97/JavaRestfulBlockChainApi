@@ -28,16 +28,17 @@ public class Block {
         String hash = "null";
         nonce = -1;
         try {
-                do {
-                    nonce++;
-                    String stringtohash = Integer.toString(nonce)+ this.index + this.date.toString() + this.previousHash + this.transactions ;
+            do {
+                nonce++;
+                String stringtohash = Integer.toString(nonce) + this.index + this.date.toString() + this.previousHash + this.transactions;
 
-                    Cryptography cryptography = new Cryptography();
-                    hash = cryptography.toHexString(cryptography.getSha(stringtohash));
-                    if (hash.charAt(0)=='a' && hash.charAt(1)=='b'){
+                Cryptography cryptography = new Cryptography();
+                hash = cryptography.toHexString(cryptography.getSha(stringtohash));
+                if (hash.charAt(0) == 'a' && hash.charAt(1) == 'b') {
 
-                        break;}
-                }while (true);
+                    break;
+                }
+            } while (true);
 
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
@@ -93,5 +94,10 @@ public class Block {
 
     public void setNonce(int nonce) {
         this.nonce = nonce;
+    }
+
+
+    public void addTransaction(Transactions transaction) {
+        transactions.add(transaction);
     }
 }
