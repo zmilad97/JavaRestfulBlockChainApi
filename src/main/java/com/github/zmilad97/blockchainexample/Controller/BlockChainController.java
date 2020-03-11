@@ -28,7 +28,6 @@ public class BlockChainController {
         user = new User(userService);
         this.userService.walletCoreList.add(blockChainService.genesis);
 
-        blockChainService.genesisTransaction(user, blockChainService);
 
     }
 
@@ -67,8 +66,6 @@ public class BlockChainController {
             hrx.setDestination(userService.findWallet(stt.getDestination(), user));
 
 
-
-
             if ((userService.validTransaction(hrx, user, blockChainService, userService))) {
                 blockChainService.addTransaction(trx, hrx);
                 response.put("The transaction has been added to block", trx);
@@ -94,12 +91,15 @@ public class BlockChainController {
     public Object mineBlock() {
         Map jsonResponse = new HashMap();
 
-        Block newBlock = new Block(blockChainService.chain.size(), new java.util.Date(), blockChainService.currentTransactions);
+        blockChainService.rewardTransaction(user, blockChainService);
+        Block newBlock = new Block(blockChainService.chain.size(), new java.util.Date(), new ArrayList<>(blockChainService.currentTransactions));
 
-        newBlock.setTransactions(blockChainService.currentTransactions);
         blockChainService.addBlock(newBlock, user, blockChainService, userService);
         jsonResponse.put("message", "the Block has been added to chain");
-        jsonResponse.put("Block details",newBlock);
+        jsonResponse.put("Block details", newBlock);
+
+        blockChainService.currentHiddenTransactions.clear();
+        blockChainService.currentTransactions.clear();
 
         return jsonResponse;
 

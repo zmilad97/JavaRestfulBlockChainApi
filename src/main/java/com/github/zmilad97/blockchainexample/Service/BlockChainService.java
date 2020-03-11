@@ -37,13 +37,13 @@ public class BlockChainService {
     private Block generateGenesis() {
 
 
-        Block genesis = new Block(0, new java.util.Date(), Arrays.asList(trx));
+        Block genesis = new Block(0, new java.util.Date(), null);
         genesis.setPreviousHash(null);
 
         return genesis;
     }
 
-    public void genesisTransaction(User user, BlockChainService blockChainService) {
+    public void rewardTransaction(User user, BlockChainService blockChainService) {
 
 
         trx.setAmount(50);
@@ -119,7 +119,9 @@ public class BlockChainService {
     }
 
     public List<Transactions> showCurrentTransaction() {
+
         return currentTransactions;
+
     }
 
     public void addTransaction(Transactions transactions, HiddenTransactions hiddenTransactions) {
