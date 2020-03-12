@@ -23,6 +23,8 @@ public class BlockChainService {
     public WalletCore genesis = new WalletCore();
     Transactions trx = new Transactions();
     HiddenTransactions hiddenTransactions = new HiddenTransactions();
+    String condition = "ab";
+    char conditionChar = 98;
 
     public BlockChainService() {
 
@@ -69,7 +71,9 @@ public class BlockChainService {
     public void addBlock(Block block, User user, BlockChainService blockChainService, UserService userService) {
         Block newBlock = block;
         newBlock.setPreviousHash(chain.get(chain.size() - 1).getHash());
-        newBlock.setHash(newBlock.computeHash());
+        if (chain.size()%5==0)
+            condition += ++conditionChar;
+        newBlock.setHash(newBlock.computeHash(condition));
 
 
         for (HiddenTransactions hrx : blockChainService.currentHiddenTransactions)
@@ -85,7 +89,7 @@ public class BlockChainService {
         int i = chain.size();
         boolean b = false;
         while (i > 0) {
-            String pow = Integer.toString(findBlockByIndex(i - 1).getNonce()) + findBlockByIndex(i - 1).getIndex() + findBlockByIndex(i - 1).getDate() + findBlockByIndex(i - 1).getPreviousHash() + findBlockByIndex(i - 1).getTransactions();
+            String pow = "" + findBlockByIndex(i - 1).getNonce() + findBlockByIndex(i - 1).getIndex() + findBlockByIndex(i - 1).getDate() + findBlockByIndex(i - 1).getPreviousHash() + findBlockByIndex(i - 1).getTransactions();
             Cryptography cryptography = new Cryptography();
 
             try {
@@ -107,6 +111,9 @@ public class BlockChainService {
         else
             return "the chain is not valid the " + i + " Block has problem";
     }
+
+
+
 
 
     public List<Block> findAll() {

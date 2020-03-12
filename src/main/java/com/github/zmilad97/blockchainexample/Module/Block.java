@@ -11,33 +11,36 @@ public class Block {
     private Date date;
     private String hash;
     private String previousHash;
-    private int nonce;
+    private long nonce;
     private List<Transactions> transactions;
 
     public Block(int index, Date date, List<Transactions> transactions) {
         this.index = index;
         this.date = date;
         this.transactions = transactions;
-        this.hash = computeHash();
+
     }
 
     public Block() {
     }
 
-    public String computeHash() {
+    public String computeHash(String condition) {
+
         String hash = "null";
         nonce = -1;
+
+        System.out.println(condition);
         try {
             do {
                 nonce++;
-                String stringtohash = Integer.toString(nonce) + this.index + this.date.toString() + this.previousHash + this.transactions;
+                String stringtohash = nonce + this.index + this.date.toString() + this.previousHash + this.transactions;
 
                 Cryptography cryptography = new Cryptography();
                 hash = cryptography.toHexString(cryptography.getSha(stringtohash));
-                if (hash.charAt(0) == 'a' && hash.charAt(1) == 'b') {
 
+                if (hash.startsWith(condition))
                     break;
-                }
+
             } while (true);
 
         } catch (NoSuchAlgorithmException e) {
@@ -88,11 +91,11 @@ public class Block {
         this.transactions = transactions;
     }
 
-    public int getNonce() {
+    public long getNonce() {
         return nonce;
     }
 
-    public void setNonce(int nonce) {
+    public void setNonce(long nonce) {
         this.nonce = nonce;
     }
 
